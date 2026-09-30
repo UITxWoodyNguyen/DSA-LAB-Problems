@@ -42,13 +42,41 @@ class DSAJudgeCLI:
     def print_banner(self):
         """Print welcome banner."""
         banner = """
-+================================================================+
-|                    DSA JUDGE v1.0.0                           |
-|         Local Grader / Auto-judge for CP                      |
-|              Competitive Programming Lab                      |
-+================================================================+
+    ____  ____  __  __  ____  _____ _____ ____  
+   |  _ \\|  _ \\|  \\/  |/ ___||_   _| ____|  _ \\ 
+   | |_) | |_) | |\\/| | |  _   | | |  _| | |_) |
+   |  _ <|  _ <| |  | | |_| |  | | | |___|  _ < 
+   |_| \\_\\_| \\_\\_|  |_|\\____|  |_| |_____|_| \\_\\
+
+   ██████ ███████ ██████  ███████ ██████ ███████
+   ██     ██      ██   ██ ██      ██   ██ ██    
+   ██     █████   ██████  █████   ██████  ███████
+   ██     ██      ██   ██ ██      ██   ██      ██
+    ██████ ███████ ██   ██ ███████ ██   ██ ███████
+
+   Local Grader / Auto-judge for CP
+   Competitive Programming Lab - UIT
+   Version 1.0.0
 """
-        print(colorize(banner, Colors.CYAN))
+        # Use only ASCII-safe characters for Windows console
+        ascii_banner = """
+    ____  ____  __  __  ____  _____ _____ ____  
+   |  _ \\|  _ \\|  \\/  |/ ___||_   _| ____|  _ \\ 
+   | |_) | |_) | |\\/| | |  _   | | |  _| | |_) |
+   |  _ <|  _ <| |  | | |_| |  | | | |___|  _ < 
+   |_| \\_\\_| \\_\\_|  |_|\\____|  |_| |_____|_| \\_\\
+
+   DDDD   SSSS   AAAA   -   JJJJ   U   U  DDDD   EEEEE
+   D   D  S      A   A      J    U   U  D   D  E     
+   D   D  SSSS   AAAAA      J    U   U  D   D  EEEE  
+   D   D     S   A   A      J    U   U  D   D  E     
+   DDDD   SSSS   A   A   JJ J     UUU   DDDD   EEEEE
+
+   Local Grader / Auto-judge for CP
+   Competitive Programming Lab - UIT
+   Version 1.0.0
+"""
+        print(colorize(ascii_banner, Colors.CYAN))
 
     def print_menu(self):
         """Print main menu."""
