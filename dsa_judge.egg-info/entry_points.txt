@@ -1,0 +1,2 @@
+[console_scripts]
+dsa-judge = dsa_judge.cli:main

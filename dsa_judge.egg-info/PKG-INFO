@@ -1,3 +1,29 @@
+Metadata-Version: 2.4
+Name: dsa-judge
+Version: 1.0.0
+Summary: Local Grader / Auto-judge for Competitive Programming
+Author-email: DSA Lab <dsa@uit.edu.vn>
+License: MIT
+Keywords: competitive-programming,judge,grader,auto-judge
+Classifier: Development Status :: 4 - Beta
+Classifier: Intended Audience :: Education
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Programming Language :: Python :: 3
+Classifier: Programming Language :: Python :: 3.8
+Classifier: Programming Language :: Python :: 3.9
+Classifier: Programming Language :: Python :: 3.10
+Classifier: Programming Language :: Python :: 3.11
+Classifier: Programming Language :: Python :: 3.12
+Requires-Python: >=3.8
+Description-Content-Type: text/markdown
+Requires-Dist: psutil>=5.9.0
+Requires-Dist: tabulate>=0.9.0
+Requires-Dist: rich>=13.0.0
+Provides-Extra: dev
+Requires-Dist: pytest>=7.0.0; extra == "dev"
+Requires-Dist: black>=23.0.0; extra == "dev"
+Requires-Dist: flake8>=6.0.0; extra == "dev"
+
 # DSA Lab Problems - Competitive Programming Judge System
 
 Hệ thống chấm bài tự động (Local Grader / Auto-judge) cho các bài tập Competitive Programming trong môn Cấu trúc dữ liệu và Giải thuật (DSA).
@@ -46,85 +72,28 @@ Mỗi bài toán có cấu trúc chuẩn:
 
 ## Cài đặt
 
-### Cách 1: Cài đặt DSA Judge CLI Tool (Khuyến nghị)
-```bash
-cd DSA-LAB-Problems
-pip install -e .
-```
-Sau đó có thể chạy `dsa-judge` từ bất kỳ đâu.
-
-### Cách 2: Chạy trực tiếp judge.py (Legacy)
 ```bash
 # Python 3.8+
 pip install psutil tabulate rich  # Optional: để có bảng đẹp và đo memory chính xác
 ```
 
-## Sử dụng DSA Judge CLI Tool
+## Sử dụng
 
-### 1. Interactive Mode (Menu-driven)
+### Chạy test generator (sinh input)
 ```bash
-dsa-judge
+cd LAB-01/R14-2/pharmacy-stock-alert/dataset
+g++ -std=c++17 -O3 test_generator.cpp -o test_generator
+./test_generator
 ```
-Hoặc:
+
+### Chạy output generator (sinh expected output)
 ```bash
-python -m dsa_judge.cli
+cd LAB-01/R14-2/pharmacy-stock-alert/dataset
+g++ -std=c++17 -O3 output_generator.cpp -o output_generator
+./output_generator
 ```
 
-Menu tương tác:
-```
-+================================================================+
-|                    DSA JUDGE v1.0.0                           |
-|         Local Grader / Auto-judge for CP                      |
-+================================================================+
-
-============================================================
-MAIN MENU
-============================================================
-  1. Set Submission File
-  2. Set Problem Directory
-  3. Set Template File (optional)
-  4. Toggle Verbose Mode: OFF
-  5. Toggle Keep Binary: OFF
-  6. View Current Settings
-  7. Run Judge
-  8. Exit
-============================================================
-Select option (1-8):
-```
-
-**Các thao tác:**
-- **Option 1**: Chọn file `submission.cpp` (validate tồn tại, đuôi .cpp/.cc/.cxx)
-- **Option 2**: Chọn thư mục bài toán (validate có `description.md`)
-- **Option 3**: Chọn `template.cpp` (optional, để trống = auto-detect trong problem dir)
-- **Option 4**: Bật/tắt verbose mode (in chi tiết từng test case)
-- **Option 5**: Bật/tắt keep binary (giữ file thực thi sau khi chấm)
-- **Option 6**: Xem cài đặt hiện tại
-- **Option 7**: Chạy judge với cài đặt hiện tại
-- **Option 8**: Thoát
-
-### 2. Direct Mode (Command Line Arguments)
-```bash
-# Chạy nhanh với tham số
-dsa-judge -s submission.cpp -p ./problem -v
-
-# Chạy với template
-dsa-judge --sub main.cpp --problem LAB-01/R14-2/gifts --template template.cpp
-
-# Giữ binary sau khi chấm
-dsa-judge -s solution.cpp -p LAB-01/R14-2/gifts --no-clean
-```
-
-### Tham số dòng lệnh
-| Tham số | Mô tả |
-|---------|-------|
-| `-s`, `--sub`, `--submission` | Đường dẫn file submission.cpp (bắt buộc) |
-| `-p`, `--problem` | Thư mục gốc bài toán |
-| `-t`, `--template` | Đường dẫn template.cpp (tùy chọn) |
-| `-v`, `--verbose` | In chi tiết từng test case |
-| `--no-clean` | Giữ binary sau khi chấm |
-| `--version` | Xem phiên bản |
-
-### 3. Chạy trực tiếp judge.py (Legacy)
+### Chấm bài với judge.py
 ```bash
 # Chấm submission.cpp cho bài pharmacy-stock-alert
 python judge.py --sub submission.cpp --problem LAB-01/R14-2/pharmacy-stock-alert -v
@@ -135,6 +104,15 @@ python judge.py -s main.cpp -p LAB-01/R14-2/selection-sort -t template.cpp
 # Giữ binary sau khi chấm
 python judge.py -s solution.cpp -p LAB-01/R14-2/gifts --no-clean
 ```
+
+### Tham số dòng lệnh
+| Tham số | Mô tả |
+|---------|-------|
+| `--sub`, `--submission` | Đường dẫn file submission.cpp (bắt buộc) |
+| `--problem`, `-p` | Thư mục gốc bài toán (mặc định: `.`) |
+| `--template`, `-t` | Đường dẫn template.cpp (tùy chọn) |
+| `--no-clean` | Giữ binary sau khi chấm |
+| `--verbose`, `-v` | In chi tiết từng test case |
 
 ## Danh sách 10 bài toán (LAB-01/R14-2)
 
