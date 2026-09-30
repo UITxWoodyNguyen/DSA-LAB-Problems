@@ -26,7 +26,7 @@ from judge import (
     TestResult,
     Verdict,
 )
-from judge import Colors, colorize, verdict_color
+from judge import Colors, colorize, verdict_color, IS_WINDOWS
 
 
 class DSAJudgeCLI:
