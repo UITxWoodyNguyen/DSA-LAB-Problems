@@ -1,0 +1,18 @@
+Mang truoc khi sap xep:
+42 42 42
+
+Sap xep:
+i = 0
+Mang truoc khi swap: 42 42 42
+Phan tu lon nhat trong doan [1, 2]: 42
+Swap 42 va 42
+Mang sau khi swap: 42 42 42
+
+i = 1
+Mang truoc khi swap: 42 42 42
+Phan tu lon nhat trong doan [2, 2]: 42
+Swap 42 va 42
+Mang sau khi swap: 42 42 42
+
+Mang sau khi sap xep:
+42 42 42

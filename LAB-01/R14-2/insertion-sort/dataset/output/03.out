@@ -1,0 +1,18 @@
+Mang truoc khi sap xep:
+42 42 42
+
+Sap xep:
+i = 1
+Mang truoc khi xu ly: 42 42 42
+Phan tu dang xet A[1] = 42
+Chen 42 vao vi tri k = 1
+Mang sau khi xu ly: 42 42 42
+
+i = 2
+Mang truoc khi xu ly: 42 42 42
+Phan tu dang xet A[2] = 42
+Chen 42 vao vi tri k = 2
+Mang sau khi xu ly: 42 42 42
+
+Mang sau khi sap xep:
+42 42 42
