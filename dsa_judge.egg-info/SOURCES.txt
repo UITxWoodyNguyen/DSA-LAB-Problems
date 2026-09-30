@@ -2,6 +2,8 @@ README.md
 pyproject.toml
 ./dsa_judge/__init__.py
 ./dsa_judge/cli.py
+dsa_judge/__init__.py
+dsa_judge/cli.py
 dsa_judge.egg-info/PKG-INFO
 dsa_judge.egg-info/SOURCES.txt
 dsa_judge.egg-info/dependency_links.txt
