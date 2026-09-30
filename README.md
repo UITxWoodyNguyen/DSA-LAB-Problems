@@ -70,13 +70,27 @@ Hoặc:
 python -m dsa_judge.cli
 ```
 
+Banner hiển thị khi khởi động:
+```
+    ____  ____  __  __  ____  _____ _____ ____  
+   |  _ \|  _ \|  \/  |/ ___||_   _| ____|  _ \ 
+   | |_) | |_) | |\/| | |  _   | | |  _| | |_) |
+   |  _ <|  _ <| |  | | |_| |  | | | |___|  _ < 
+   |_| \_\_| \_\_|  |_|\____|  |_| |_____|_| \_\
+
+   DDDD   SSSS   AAAA   -   JJJJ   U   U  DDDD   EEEEE
+   D   D  S      A   A      J    U   U  D   D  E     
+   D   D  SSSS   AAAAA      J    U   U  D   D  EEEE  
+   D   D     S   A   A      J    U   U  D   D  E     
+   DDDD   SSSS   A   A   JJ J     UUU   DDDD   EEEEE
+
+   Local Grader / Auto-judge for CP
+   Competitive Programming Lab - UIT
+   Version 1.0.0
+```
+
 Menu tương tác:
 ```
-+================================================================+
-|                    DSA JUDGE v1.0.0                           |
-|         Local Grader / Auto-judge for CP                      |
-+================================================================+
-
 ============================================================
 MAIN MENU
 ============================================================
