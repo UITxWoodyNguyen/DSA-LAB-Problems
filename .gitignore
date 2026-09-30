@@ -1,3 +1,4 @@
 .opencode
 
-.exe
+*.exe
+/*.exe
