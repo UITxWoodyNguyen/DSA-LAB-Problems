@@ -20,3 +20,8 @@ A pharmacist needs to identify which medicine is running lowest on stock to trig
 ## Constraints
 * $1 \le N \le 1,000,000$
 * $1 \le \text{stock} \le 10^6$
+
+## Limitations
+* Language: C++
+* Time limit: 3.5s
+* Memory limit: 50MB

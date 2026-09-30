@@ -7,15 +7,6 @@ void NhapMang(int A[], int &N) {
         std::cin >> A[i];
 }
 
-bool isMaxHeap(int a[], int n) {
-    if (n == 0) return true;
-    for(int i = 0; i <= (n - 2) >> 1; i++) {
-        if (a[i] < a[(i << 1) + 1]) return false;
-        if ((i << 1) + 2 < n && a[i] < a[(i << 1) + 2]) return false;
-    }
-    return true;
-}
-
 
 int main() {
     int a[MAXN], n;

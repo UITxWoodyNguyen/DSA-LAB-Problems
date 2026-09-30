@@ -22,3 +22,7 @@ A supermarket's inventory is sorted by product code (integer). Given a query pro
 * $1 \le N \le 2,000,000$
 * $1 \le \text{code} \le 10^9$
 * $1 \le \text{price} \le 10^6$
+
+## Limitations
+* Language: C++
+* (Runtime, Memory) = (0.999s, 50MB)

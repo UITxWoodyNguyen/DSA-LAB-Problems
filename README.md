@@ -32,7 +32,8 @@ Mỗi bài toán có cấu trúc chuẩn:
 │   ├── test_generator.cpp      # Sinh input test cases
 │   └── output_generator.cpp    # Sinh output từ solution.cpp
 ├── description.md              # Đề bài, ràng buộc, format I/O
-└── solution.cpp                # Lời giải chuẩn (model solution)
+├── solution.cpp                # Lời giải chuẩn (model solution)
+└── template.cpp                # (Optional) Khung code cho thí sinh
 ```
 
 ## Tính năng của judge.py
@@ -104,49 +105,93 @@ python judge.py -s solution.cpp -p LAB-01/R14-2/gifts --no-clean
 | 9 | **heapsort** | Heap Sort | N ≤ 150,000 |
 | 10 | **gifts** | Two Pointers (Sorted) | N ≤ 10^5 |
 
-## Kết quả chấm thử (Reference Solutions)
+## Template Compliance Checking
 
-| Problem | Tests Passed | Score | Notes |
-|---------|--------------|-------|-------|
-| pharmacy-stock-alert | 49/50 | 98.0% | Test 49 TLE (N=1M, TL=1s) |
-| supermarket-price-lookup | 50/50 | 100% | - |
-| lower-bound | 48/50 | 96% | 2 TLE (N=100K, Q=500K) |
-| selection-sort | 50/50 | 100% | - |
-| insertion-sort | 50/50 | 100% | - |
-| insertion-sort-student | 50/50 | 100% | - |
-| maxheap-check | 50/50 | 100% | - |
-| build-maxheap | 50/50 | 100% | - |
-| heapsort | 50/50 | 100% | - |
-| gifts | 50/50 | 100% | - |
+judge.py tự động kiểm tra submission có tuân thủ `template.cpp` không:
 
-> **Lưu ý**: Các bài có TLE là do test case lớn (N=100K-1M) với Time Limit 1s mặc định từ description.md. Có thể điều chỉnh TL trong description.md hoặc tối ưu solution.
+1. **Extract template structure**:
+   - Required functions (signature)
+   - Required classes
+   - Required includes
+   - BEGIN/END TEMPLATE markers
+
+2. **Validate submission**:
+   - Có đầy đủ required functions/classes/includes
+   - BEGIN marker xuất hiện trước END marker
+   - Không vi phạm forbidden patterns (nếu có)
+
+3. **Reject** nếu vi phạm: `[REJECTED] Submission does not follow the required template!` (exit code 2)
+
+### Template format mẫu
+```cpp
+// template.cpp
+#include <iostream>
+#include <vector>
+
+// BEGIN TEMPLATE
+void NhapMang(int A[], int &N);
+bool isMaxHeap(int A[], int N);
+// END TEMPLATE
+
+int main() { ... }
+```
+
+## Cấu hình description.md
+
+File `description.md` chứa metadata để judge tự động parse:
+
+```markdown
+## Limitations
+* Language: C++
+* Time limit: 1.5s
+* Memory limit: 50MB
+```
+
+Hoặc format khác:
+```markdown
+Time limit: 1.5s
+Memory limit: 256MB
+```
+
+Hỗ trợ các format: `Time limit:`, `Time Limit:`, `time limit:`, `Memory limit:`, `Memory Limit:`, đơn vị `s`, `ms`, `MB`, `MiB`.
 
 ## Ví dụ Output judge.py
 
 ```
 Problem: pharmacy-stock-alert
 Submission: solution.cpp
-Time Limit: 1.0s
-Memory Limit: 256MB
+Template: template.cpp
+Time Limit: 1.5s
+Memory Limit: 50MB
 
+Checking template compliance...
+[OK] Template compliance check passed
 Compiling...
 [OK] Compilation successful
 Found 50 test case(s)
 Running tests...
 
-  01: AC (340.5ms, 0.0MB)
-  02: AC (11.8ms, 0.0MB)
+  01: AC (177.5ms, 0.0MB)
+  02: AC (5.1ms, 0.0MB)
   ...
 
 Test ID    Status       Time(ms)    Mem(MB) Details
 --------------------------------------------------------------------------------
-01         AC              340.5        0.0
-02         AC               11.8        0.0
+01         AC              177.5        0.0
+02         AC                5.1        0.0
 ...
-49         TLE            1116.5        0.0 Time limit exceeded
-50         AC              230.5        0.0
-Score: 49/50 [98.0%]
+50         AC              609.2        0.0
+Score: 50/50 [100.0%]
 ```
+
+## Exit Codes
+
+| Code | Meaning |
+|------|---------|
+| 0 | All tests AC |
+| 1 | Some tests failed (WA/TLE/MLE/RTE) |
+| 2 | Template compliance rejected |
+| 3 | Compilation error (CE) |
 
 ## Mở rộng
 
@@ -156,11 +201,12 @@ Score: 49/50 [98.0%]
 3. Tạo `dataset/test_generator.cpp` (sinh 50 test cases)
 4. Tạo `dataset/output_generator.cpp` (template có sẵn)
 5. Viết `solution.cpp` chuẩn
-6. Chạy: `test_generator` → `output_generator` → `judge.py`
+6. (Optional) Tạo `template.cpp` cho thí sinh
+7. Chạy: `test_generator` → `output_generator` → `judge.py`
 
 ### Custom Checker
 Trong `description.md` thêm:
-```
+```markdown
 Float epsilon: 1e-9
 ```
 hoặc implement custom checker trong solution.

@@ -19,3 +19,7 @@ Xuất trên 2 dòng liền kề nhau:
 | 10<br>5 5 5 5 6 6 6 10 20 20 | 10<br>20 20 6 10 6 5 6 5 5 5 |
 | 10<br>5 9 4 5 6 10 0 1 2 4 | 10<br>10 9 5 5 6 4 0 1 2 4 |
 | 0 | 0 |
+
+## Limitations
+* Language: C++
+* (Runtime, Memory) = (0.5s, 50MB)

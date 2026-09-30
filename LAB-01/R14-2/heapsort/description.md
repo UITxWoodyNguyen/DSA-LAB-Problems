@@ -18,3 +18,7 @@ Xuất trên 2 dòng liền kề nhau:
 | :--- | :--- |
 | 7<br>8 5 3 9 0 1 2 | 7<br>0 1 2 3 5 8 9 |
 | 0 | 0 |
+
+## Limitations
+* Language: C++
+* (Runtime, Memory) = (0.5s, 50MB)

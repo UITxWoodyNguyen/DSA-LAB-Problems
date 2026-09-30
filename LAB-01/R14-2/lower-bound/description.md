@@ -21,3 +21,7 @@ Nếu không có phần tử nào lớn hơn hoặc bằng x, hãy in ra -1.
 | Input | Output |
 | :--- | :--- |
 | 10 8<br>10 -5 15 4 -2 0 7 -2 10 3<br>-3<br>4<br>8<br>15<br>16<br>-10<br>0<br>5 | -2<br>4<br>10<br>15<br>-1<br>-5<br>0<br>7 |
+
+## Limitations:
+* Language: C++
+* (Runtime, Memory) = (1s, 50MB)

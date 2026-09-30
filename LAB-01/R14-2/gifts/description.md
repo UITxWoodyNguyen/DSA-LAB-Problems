@@ -19,3 +19,7 @@ Hãy xác định tổng số tiền Steve cần chi trả.
 | INPUT | OUTPUT |
 | :--- | :--- |
 | 6 18<br>5 3 10 2 4 9 | 15 |
+
+## Limitations
+* Language: C++
+* (Runtime, Memory) = (0.5s, 50MB)

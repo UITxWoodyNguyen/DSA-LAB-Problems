@@ -56,3 +56,7 @@ Cho danh sách $n$ sinh viên, mỗi sinh viên gồm **mã số** (số nguyên
 10 Lan 7
 13 Nam 5
 ```
+
+## Limitations
+* Language: C++
+* (Runtime, Memory) = (1s, 50MB)

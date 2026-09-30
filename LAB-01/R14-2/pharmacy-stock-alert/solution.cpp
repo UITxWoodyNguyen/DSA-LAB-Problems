@@ -1,26 +1,35 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <string>
 using namespace std;
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    int n;
-    if (!(cin >> n)) return 0;
-    
-    string min_name;
-    int min_stock = INT_MAX;
-    
-    for (int i = 0; i < n; ++i) {
-        string name;
-        int stock;
-        cin >> name >> stock;
-        if (stock < min_stock) {
-            min_stock = stock;
-            min_name = name;
-        }
+struct Stock {
+    string name;
+    int quantity;
+};
+
+int linear_search_minimum (vector<Stock> &st, int n) {
+    int min_index = 0;
+    for(int i = 1; i < n; i++) {
+        if (st[i].quantity < st[min_index].quantity) min_index = i;
     }
-    
-    cout << min_name << "\n";
-    return 0;
+    return min_index;
+}
+
+void getName (Stock &s) {
+    cout << s.name << endl;
+}
+
+int main () {
+    int n;
+    cin >> n;
+    vector<Stock> st;
+    for(int i = 0; i < n; i++) {
+        Stock s;
+        cin >> s.name >> s.quantity;
+        st.push_back(s);
+    }
+
+    int min_index = linear_search_minimum(st, n);
+    getName(st[min_index]);
 }

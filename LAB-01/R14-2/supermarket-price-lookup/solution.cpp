@@ -1,42 +1,58 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <string>
 using namespace std;
 
-int main() {
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
-    
-    int n;
-    if (!(cin >> n)) return 0;
-    
-    vector<pair<long long, long long>> products(n);
-    for (int i = 0; i < n; ++i) {
-        cin >> products[i].first >> products[i].second;
-    }
-    
-    long long query;
-    cin >> query;
-    
-    int left = 0, right = n - 1;
-    bool found = false;
-    long long price = 0;
-    
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (products[mid].first == query) {
-            found = true;
-            price = products[mid].second;
-            break;
-        } else if (products[mid].first < query) {
-            left = mid + 1;
+const string notFound = "Not Found";
+const int MAX_N = 2e6 + 36; 
+
+struct Product {
+    long long code;
+    int price;
+};
+Product prods[MAX_N];
+int n;
+long long targetCode;
+int indexResult;
+
+void getPrice(const Product &p) {
+    cout << p.price << endl;
+}
+
+int BinarySearchCode(long long code) {
+    int lo = 0, hi = n - 1;
+    int ans = -1;
+    while (lo <= hi) {
+        int mid = lo + (hi - lo) / 2;
+        if (prods[mid].code == code) {
+            ans = mid;
+            hi = mid - 1;
+        } else if (prods[mid].code < code) {
+            lo = mid + 1;
         } else {
-            right = mid - 1;
+            hi = mid - 1;
         }
     }
-    
-    if (found) {
-        cout << price << "\n";
-    } else {
-        cout << "Not Found\n";
+    return ans;
+}
+
+int main() {
+    ios_base::sync_with_stdio(false);
+    cin.tie(NULL);
+
+    cin >> n;
+    for (int i = 0; i < n; i++) {
+        cin >> prods[i].code >> prods[i].price;
     }
+
+    cin >> targetCode;
+
+    indexResult = BinarySearchCode(targetCode);
+
+    if (indexResult == -1) {
+        cout << notFound << endl;
+    } else {
+        getPrice(prods[indexResult]);
+    }
+
     return 0;
 }
