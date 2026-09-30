@@ -83,6 +83,16 @@ class ProblemConfig:
     custom_checker: Optional[str] = None
 
 
+# Enable Windows ANSI color support
+if IS_WINDOWS:
+    try:
+        import ctypes
+        kernel32 = ctypes.windll.kernel32
+        kernel32.SetConsoleMode(kernel32.GetStdHandle(-11), 7)
+        kernel32.SetConsoleMode(kernel32.GetStdHandle(-12), 7)
+    except Exception:
+        pass
+
 class Colors:
     GREEN = "\033[92m"
     RED = "\033[91m"
@@ -96,6 +106,18 @@ class Colors:
     
     @classmethod
     def enabled(cls) -> bool:
+        # On Windows, check if we can use ANSI colors
+        if IS_WINDOWS:
+            # Check if running in a terminal that supports ANSI
+            try:
+                import ctypes
+                kernel32 = ctypes.windll.kernel32
+                handle = kernel32.GetStdHandle(-11)
+                mode = ctypes.c_ulong()
+                kernel32.GetConsoleMode(handle, ctypes.byref(mode))
+                return bool(mode.value & 0x0004)  # ENABLE_VIRTUAL_TERMINAL_PROCESSING
+            except Exception:
+                return False
         return sys.stdout.isatty()
 
 
