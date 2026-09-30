@@ -19,8 +19,6 @@ DSA-LAB-Problems/
 │       ├── build-maxheap/                 # Xây dựng Max Heap
 │       ├── heapsort/                      # Heap Sort (tăng dần)
 │       └── gifts/                         # Chọn 2 món quà (Two Pointers)
-└── .opencode/
-    └── GUIDE.md                 # Hướng dẫn cấu trúc bài tập & sinh test
 ```
 
 Mỗi bài toán có cấu trúc chuẩn:
