@@ -187,6 +187,7 @@ def extract_template_structure(template_path: Path) -> Dict[str, Any]:
         'required_functions': [],
         'required_classes': [],
         'required_includes': [],
+        'allowed_includes': set(),  # All includes allowed (from template)
         'begin_marker': False,
         'end_marker': False,
         'forbidden_patterns': []
@@ -207,7 +208,9 @@ def extract_template_structure(template_path: Path) -> Dict[str, Any]:
     
     include_pattern = r'#include\s*[<"]([^>"]+)[>"]'
     for match in re.finditer(include_pattern, content):
-        structure['required_includes'].append(match.group(1))
+        inc = match.group(1)
+        structure['required_includes'].append(inc)
+        structure['allowed_includes'].add(inc.lower())
     
     return structure
 
@@ -216,6 +219,18 @@ def check_template_compliance(submission_path: Path, template_structure: Dict[st
     """Check if submission follows template structure."""
     content = submission_path.read_text(encoding='utf-8', errors='ignore')
     errors = []
+    
+    # Check for unauthorized includes - submission must not use includes not in template
+    allowed_includes = template_structure.get('allowed_includes', set())
+    if allowed_includes:
+        include_pattern = r'#include\s*[<"]([^>"]+)[>"]'
+        submission_includes = set()
+        for match in re.finditer(include_pattern, content):
+            submission_includes.add(match.group(1).lower())
+        
+        unauthorized = submission_includes - allowed_includes
+        if unauthorized:
+            errors.append(f"Unauthorized includes detected (not in template): {', '.join(sorted(unauthorized))}")
     
     if template_structure['begin_marker'] and template_structure['end_marker']:
         begin_match = re.search(r'//\s*BEGIN\s+TEMPLATE', content, re.IGNORECASE)
