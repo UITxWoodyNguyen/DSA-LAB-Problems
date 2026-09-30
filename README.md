@@ -39,21 +39,64 @@ Mỗi bài toán có cấu trúc chuẩn:
 - **CLI Arguments**: `--sub` (submission), `--problem` (thư mục bài toán), `--template` (template.cpp)
 - **Template Compliance**: Kiểm tra submission có tuân thủ template.cpp (BEGIN/END TEMPLATE, required functions/classes/includes)
 - **Auto-config từ description.md**: Parse Time Limit, Memory Limit, Float epsilon
-- **Compilation**: g++ -O3 -std=c++17 -static
+- **Compilation**: g++ -O3 -std=c++17 (cross-platform: Windows `-static`, Linux `-pthread`)
 - **Execution Monitoring**: Time Limit (TLE), Memory Limit (MLE), Runtime Error (RTE)
 - **Output Comparison**: Normalize whitespace, hỗ trợ float comparison với epsilon
 - **Reporting**: Bảng kết quả màu sắc (Rich/Tabulate/ASCII), Score summary
+- **Cross-platform**: Windows, Linux (Ubuntu, Kali, Debian, Mint, Pop!_OS), macOS
 
 ## Cài đặt
 
-### Cách 1: Cài đặt DSA Judge CLI Tool (Khuyến nghị)
+### Linux (Ubuntu, Kali, Debian, Mint, Pop!_OS, Fedora, Arch, openSUSE)
+
+**Cách 1: Script tự động (Khuyến nghị)**
 ```bash
 cd DSA-LAB-Problems
+chmod +x install_linux.sh
+./install_linux.sh
+```
+
+**Cách 2: Thủ công**
+```bash
+# Ubuntu/Debian/Kali/Mint/Pop!_OS
+sudo apt-get update && sudo apt-get install -y build-essential g++ python3 python3-pip python3-venv
+
+# Fedora/RHEL/CentOS
+sudo dnf install -y gcc-c++ make python3 python3-pip
+
+# Arch/Manjaro
+sudo pacman -S --needed base-devel gcc python python-pip
+
+# openSUSE
+sudo zypper install -y gcc-c++ make python3 python3-pip
+
+# Tạo virtual environment và cài đặt
+python3 -m venv venv
+source venv/bin/activate
+pip install --upgrade pip
 pip install -e .
 ```
-Sau đó có thể chạy `dsa-judge` từ bất kỳ đâu.
 
-### Cách 2: Chạy trực tiếp judge.py (Legacy)
+### Windows (10/11)
+
+**Cách 1: Script tự động**
+```cmd
+cd DSA-LAB-Problems
+install_windows.bat
+```
+
+**Cách 2: Thủ công**
+```cmd
+REM 1. Cài Python 3.8+ từ python.org (check "Add to PATH")
+REM 2. Cài MinGW-w64: https://www.mingw-w64.org/downloads/
+REM    Hoặc MSYS2: https://www.msys2.org/ (pacman -S mingw-w64-x86_64-gcc)
+REM 3. Thêm MinGW/bin vào PATH (ví dụ: C:\mingw64\bin)
+
+pip install --upgrade pip
+pip install -e .
+```
+
+### Chạy trực tiếp judge.py (Legacy - không cần cài package)
 ```bash
 # Python 3.8+
 pip install psutil tabulate rich  # Optional: để có bảng đẹp và đo memory chính xác
@@ -63,7 +106,10 @@ pip install psutil tabulate rich  # Optional: để có bảng đẹp và đo me
 
 ### 1. Interactive Mode (Menu-driven)
 ```bash
+# Linux/macOS
 dsa-judge
+# Windows
+dsa-judge.exe
 ```
 Hoặc:
 ```bash
@@ -262,7 +308,35 @@ Score: 50/50 [100.0%]
 4. Tạo `dataset/output_generator.cpp` (template có sẵn)
 5. Viết `solution.cpp` chuẩn
 6. (Optional) Tạo `template.cpp` cho thí sinh
-7. Chạy: `test_generator` → `output_generator` → `judge.py`
+7. Chạy test generator & output generator (xem dưới)
+
+### Sinh test cases & expected outputs (Cross-platform)
+
+**Linux/macOS:**
+```bash
+cd LAB-01/R14-2/<problem>/dataset
+
+# Compile test generator
+g++ -std=c++17 -O3 -pthread test_generator.cpp -o test_generator
+./test_generator
+
+# Compile output generator (requires solution.cpp)
+g++ -std=c++17 -O3 -pthread output_generator.cpp -o output_generator
+./output_generator
+```
+
+**Windows (MinGW/MSYS2):**
+```cmd
+cd LAB-01\R14-2\<problem>\dataset
+
+REM Compile test generator
+g++ -std=c++17 -O3 -static -s test_generator.cpp -o test_generator.exe
+test_generator.exe
+
+REM Compile output generator (requires solution.cpp)
+g++ -std=c++17 -O3 -static -s output_generator.cpp -o output_generator.exe
+output_generator.exe
+```
 
 ### Custom Checker
 Trong `description.md` thêm:

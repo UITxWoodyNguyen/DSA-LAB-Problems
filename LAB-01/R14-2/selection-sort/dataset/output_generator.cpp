@@ -10,12 +10,15 @@ using namespace std;
 int main() {
     fs::create_directories("output");
 
+    // Cross-platform compilation
 #ifdef _WIN32
-    int compile_status = system("g++ -O3 ../solution.cpp -o ../solution.exe");
+    int compile_status = system("g++ -O3 -std=c++17 -pipe -static -s ../solution.cpp -o ../solution.exe");
+    string binary_name = "solution.exe";
     string run_prefix = "..\\solution.exe";
 #else
-    int compile_status = system("g++ -O3 ../solution.cpp -o ../solution");
-    string run_prefix = "../solution";
+    int compile_status = system("g++ -O3 -std=c++17 -pipe -pthread ../solution.cpp -o ../solution");
+    string binary_name = "solution";
+    string run_prefix = "./solution";
 #endif
 
     if (compile_status != 0) {
@@ -34,7 +37,12 @@ int main() {
             continue;
         }
 
+        // Cross-platform execution
+#ifdef _WIN32
         cmd << run_prefix << " < " << in_ss.str() << " > " << out_ss.str();
+#else
+        cmd << "cd .. && ./" << binary_name << " < dataset/" << in_ss.str() << " > dataset/" << out_ss.str();
+#endif
         system(cmd.str().c_str());
 
         cout << "[OK] Generated: " << out_ss.str() << "\n";

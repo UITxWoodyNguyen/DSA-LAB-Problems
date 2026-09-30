@@ -3,6 +3,7 @@
 Local Grader / Auto-judge for Competitive Programming
 Supports template compliance, compilation, execution with time/memory limits,
 and detailed reporting with color-coded output.
+Cross-platform: Windows, Linux (Ubuntu, Kali, Debian, Mint, etc.), macOS
 """
 
 import argparse
@@ -14,6 +15,7 @@ import tempfile
 import shutil
 import time
 import signal
+import platform
 from pathlib import Path
 from typing import Optional, Tuple, List, Dict, Any
 from dataclasses import dataclass
@@ -39,6 +41,16 @@ try:
     RICH_AVAILABLE = True
 except ImportError:
     RICH_AVAILABLE = False
+
+# Platform detection
+IS_WINDOWS = platform.system() == "Windows"
+IS_LINUX = platform.system() == "Linux"
+IS_MACOS = platform.system() == "Darwin"
+IS_UNIX = IS_LINUX or IS_MACOS
+
+# Binary names
+BINARY_NAME = "submission.exe" if IS_WINDOWS else "submission"
+COMPILER = "g++"
 
 
 class Verdict(Enum):
@@ -265,12 +277,21 @@ def parse_description_md(description_path: Path) -> ProblemConfig:
 
 
 def compile_submission(submission_path: Path, binary_path: Path) -> Tuple[bool, str]:
-    """Compile submission.cpp with g++."""
-    cmd = [
-        'g++', '-O3', '-std=c++17', '-pipe',
-        '-static', '-s',
-        str(submission_path), '-o', str(binary_path)
-    ]
+    """Compile submission.cpp with g++ (cross-platform)."""
+    # On Linux/macOS, -static causes issues with glibc/pthreads
+    # On Windows, -static works fine with MinGW
+    if IS_WINDOWS:
+        cmd = [
+            COMPILER, '-O3', '-std=c++17', '-pipe',
+            '-static', '-s',
+            str(submission_path), '-o', str(binary_path)
+        ]
+    else:
+        cmd = [
+            COMPILER, '-O3', '-std=c++17', '-pipe',
+            '-pthread',
+            str(submission_path), '-o', str(binary_path)
+        ]
     
     try:
         result = subprocess.run(cmd, capture_output=True, text=True, timeout=60)
@@ -280,14 +301,14 @@ def compile_submission(submission_path: Path, binary_path: Path) -> Tuple[bool, 
     except subprocess.TimeoutExpired:
         return False, "Compilation timeout (60s)"
     except FileNotFoundError:
-        return False, "g++ not found in PATH"
+        return False, f"{COMPILER} not found in PATH. Install build-essential (Linux) or MinGW (Windows)"
     except Exception as e:
         return False, f"Compilation error: {e}"
 
 
 def run_testcase(binary_path: Path, input_path: Path, output_path: Path,
                  time_limit_sec: float, memory_limit_mb: int) -> TestResult:
-    """Run a single test case with time/memory monitoring."""
+    """Run a single test case with time/memory monitoring (cross-platform)."""
     test_id = input_path.stem
     
     input_data = input_path.read_text(encoding='utf-8', errors='ignore')
@@ -295,13 +316,25 @@ def run_testcase(binary_path: Path, input_path: Path, output_path: Path,
     peak_memory = 0.0
     start_time = time.perf_counter()
     
+    # Cross-platform binary execution
+    if IS_WINDOWS:
+        run_cmd = [str(binary_path)]
+    else:
+        run_cmd = [f"./{binary_path.name}"]
+        # Ensure binary is executable
+        try:
+            binary_path.chmod(0o755)
+        except Exception:
+            pass
+    
     try:
         proc = subprocess.Popen(
-            [str(binary_path)],
+            run_cmd,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
-            text=True
+            text=True,
+            cwd=str(binary_path.parent)
         )
         
         try:
